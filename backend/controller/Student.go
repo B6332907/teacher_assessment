@@ -10,28 +10,28 @@ import (
 
 // POST /Student
 
-func CreateStudent(c *gin.Context) {
+// func CreateStudent(c *gin.Context) {
 
-	var Student entity.Student
-	if err := c.ShouldBindJSON(&Student); err != nil {
+// 	var Student entity.Student
+// 	if err := c.ShouldBindJSON(&Student); err != nil {
 
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
-		return
+// 		return
 
-	}
+// 	}
 
-	if err := entity.DB().Create(&Student).Error; err != nil {
+// 	if err := entity.DB().Create(&Student).Error; err != nil {
 
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
-		return
+// 		return
 
-	}
+// 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": Student})
+// 	c.JSON(http.StatusOK, gin.H{"data": Student})
 
-}
+// }
 
 // GET /Student/:id
 

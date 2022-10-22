@@ -37,7 +37,7 @@ func Authorizes() gin.HandlerFunc {
 			return
 
 		}
-		// c.Set("email", claims.Email)
+		//c.Set("user_student", claims.User_student)
 		c.Next()
 	}
 

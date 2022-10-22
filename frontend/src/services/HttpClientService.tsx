@@ -1,13 +1,37 @@
 import React from "react";
+import { SigninInterface } from "../models/ISignin";
 import { Teacher_assessmentsInterface } from "../models/ITeacher_assessment";
 
 const apiUrl = "http://localhost:8080";
+
+
+async function Login(data: SigninInterface) {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    };
+  
+    let res = await fetch(`${apiUrl}/login`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("uid", res.data.id);
+          return res.data;
+        } else {
+          return false;
+        }
+      });
+  
+    return res;
+  }
 
 async function GetStudent() {
     const requestOptions = {
         method: "GET",
         headers: {
-            //Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json"
         },
     };
@@ -26,11 +50,35 @@ async function GetStudent() {
     return res;
 }
 
+async function GetOnlyStudent() {
+    const uid = localStorage.getItem("uid");
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+        },
+    };
+
+    let res = await fetch(`${apiUrl}/Student/${uid}`, requestOptions)
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.data) {
+                console.log(res.data);
+                return res.data;
+            } else {
+                return false;
+            }
+        });
+
+    return res;
+}
+
 async function GetTeacher() {
     const requestOptions = {
         method: "GET",
         headers: {
-            // Authorization: `Bearer ${localStorage.getItem("token")}`,
+             Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json"
         },
     };
@@ -53,7 +101,7 @@ async function GetTeaching_duration() {
     const requestOptions = {
         method: "GET",
         headers: {
-            //Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json"
         },
     };
@@ -76,7 +124,7 @@ async function GetContent_difficulty_level() {
     const requestOptions = {
         method: "GET",
         headers: {
-            //Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json"
         },
     };
@@ -99,7 +147,7 @@ async function GetContent_quality() {
     const requestOptions = {
         method: "GET",
         headers: {
-            //Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json"
         },
     };
@@ -122,7 +170,7 @@ async function GetTeacher_assessments() {
     const requestOptions = {
         method: "GET",
         headers: {
-            //Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json"
         },
     };
@@ -145,7 +193,7 @@ async function CreateTeacher_assessment(data: Teacher_assessmentsInterface) {
     const requestOptions = {
       method: "POST",
       headers: {
-        //Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
@@ -155,6 +203,7 @@ async function CreateTeacher_assessment(data: Teacher_assessmentsInterface) {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
+            console.log(res.data);
           return res.data;
         } else {
           return false;
@@ -165,6 +214,7 @@ async function CreateTeacher_assessment(data: Teacher_assessmentsInterface) {
   }
 
   export {
+    Login,
     GetTeacher_assessments,
     GetStudent,
     GetTeacher,
@@ -172,6 +222,7 @@ async function CreateTeacher_assessment(data: Teacher_assessmentsInterface) {
     GetContent_difficulty_level,
     GetContent_quality,
     CreateTeacher_assessment,
+    GetOnlyStudent,
   };
 
 

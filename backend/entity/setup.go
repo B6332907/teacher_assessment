@@ -3,7 +3,7 @@ package entity
 import (
 	//"fmt"
 	//"time"
-
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
 	"gorm.io/driver/sqlite"
@@ -30,6 +30,7 @@ func SetupDatabase() {
 	// Migrate the schema
 
 	database.AutoMigrate(
+		&Student{},
 		&Teacher{},
 		&Teacher_assessment{},
 		&Teaching_duration{},
@@ -38,27 +39,33 @@ func SetupDatabase() {
 	)
 
 	db = database
+	phone_1, err := bcrypt.GenerateFromPassword([]byte("0935463156"), 14)
+	phone_2, err := bcrypt.GenerateFromPassword([]byte("0917271607"), 14)
 
 	// student data
 	db.Model(&Student{}).Create(&Student{
 		Name:         "Khunjira Pantuket",
+		User_student: "Student5001",
 		College_year: 3,
 		Gpx:          3.00,
 		//Faculty_ID:    1004,
 		Date_of_birth: "20/06/2001",
-		Phone:         "0935463156",
+		Phone:         string(phone_1),
 		Parent:        "Banjoong Puntuket",
+
 		//Teacher_ID:    5001,
 		//Officer_ID:    0101,
 	})
 	db.Model(&Student{}).Create(&Student{
 		Name:         "Natiluk Srisakkwa",
+		User_student: "Student5002",
 		College_year: 3,
 		Gpx:          3.00,
 		//Faculty_ID:    1004,
 		Date_of_birth: "26/07/2001",
-		Phone:         "0917271607",
+		Phone:         string(phone_2),
 		Parent:        "Sawat Puntuket",
+
 		//Teacher_ID:    5001,
 		//Officer_ID:    0102,
 	})

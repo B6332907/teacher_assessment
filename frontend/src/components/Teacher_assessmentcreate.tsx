@@ -24,7 +24,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
  import { Teacher_assessmentsInterface } from "../models/ITeacher_assessment";   
 
 import {
-    GetStudent,
+    GetOnlyStudent,
     GetTeacher,
     GetTeaching_duration,
     GetContent_difficulty_level,
@@ -39,7 +39,7 @@ import {
   });
   
   function Teacher_assessmentCreate() {
-    const [Students, setStudents] = useState<StudentsInterface[]>([]);
+    const [student, setStudent] = useState<StudentsInterface>({});
     const [Teachers, setTeachers] = useState<TeachersInterface[]>([]);
     const [Teaching_durations, setTeaching_durations] = useState<Teaching_durationsInterface[]>([]);
     const [Content_difficulty_levels, setContent_difficulty_levels] = useState<Content_difficulty_levelsInterface[]>([]);
@@ -61,15 +61,18 @@ import {
 
     const handleChange = (event: SelectChangeEvent) => {
       const name = event.target.name as keyof typeof Teacher_assessment;
+      const value = event.target.value;
       setTeacher_assessments({
           ...Teacher_assessment,
-          [name]: event.target.value,
+          [name]: value,
       });
+      console.log(`${name}: ${value}`);
   };
     const getStudent = async () => {
-      let res = await GetStudent();
+      let res = await GetOnlyStudent();
       if (res) {
-        setStudents(res);
+        setStudent(res);
+        Teacher_assessment.Student_ID = res.ID
         console.log(res);
     }
   };
@@ -125,6 +128,7 @@ import {
       Content_difficulty_level_ID: convertType(Teacher_assessment.Content_difficulty_level_ID),
       Content_quality_ID: convertType(Teacher_assessment.Content_quality_ID),
     };
+    console.log("data");
     console.log(data);
     let res = await CreateTeacher_assessment(data);
     if (res) {
@@ -180,20 +184,20 @@ import {
               <p>รหัสนักศึกษา</p>
               <Select
                 native
+                
                 value={Teacher_assessment.Student_ID + ""}
                 onChange={handleChange}
+                disabled
                 inputProps={{
                   name: "Student_ID",
                 }}
               >
                 <option aria-label="None" value="">
-                  กรุณาเลือกรหัสนักศึกษา
+                  กรุณารหัสนักศึกษา
                 </option>
-                {Students.map((item: StudentsInterface) => (
-                  <option value={item.ID} key={item.ID}>
-                    {item.Name}
-                  </option>
-                ))}
+                <option value={student?.ID} key={student?.ID}>
+                  {student?.User_student}
+                </option>
               </Select>
             </FormControl>
           </Grid>

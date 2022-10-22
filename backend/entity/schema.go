@@ -9,6 +9,7 @@ import (
 type Student struct {
 	gorm.Model
 	Name          string `gorm:"uniqueIndex"`
+	User_student  string `gorm:"uniqueIndex"`
 	College_year  uint
 	Gpx           uint
 	Date_of_birth string

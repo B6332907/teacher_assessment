@@ -1,105 +1,105 @@
 package controller
 
 import (
-	// "net/http"
+	"net/http"
 
-	// "github.com/gin-gonic/gin"
-	// "github.com/B6332907/sa-65-example/entity"
-	// "github.com/B6332907/sa-65-example/service"
-	// "golang.org/x/crypto/bcrypt"
+	"github.com/B6332907/sa-65-example/entity"
+	"github.com/B6332907/sa-65-example/service"
+	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // LoginPayload login body
-// type LoginPayload struct {
-// 	Email    string `json:"email"`
-// 	Password string `json:"password"`
-// }
+type LoginPayload struct {
+	User_student string `json:"user_student"`
+	Phone        string `json:"Phone"`
+}
 
-// // SignUpPayload signup body
-// type SignUpPayload struct {
-// 	Name     string `json:"name"`
-// 	Email    string `json:"email"`
-// 	Password string `json:"password"`
-// }
+// SignUpPayload signup body
+type SignUpPayload struct {
+	Name         string `json:"name"`
+	User_student string `json:"user_student"`
+	Phone        string `json:"phone"`
+}
 
-// // LoginResponse token response
-// type LoginResponse struct {
-// 	Token string `json:"token"`
-// 	ID    uint   `json:"id"`
-// }
+// LoginResponse token response
+type LoginResponse struct {
+	Token string `json:"token"`
+	ID    uint   `json:"id"`
+}
 
-// // POST /login
-// func Login(c *gin.Context) {
-// 	var payload LoginPayload
-// 	var Student entity.Student
+// POST /login
+func Login(c *gin.Context) {
+	var payload LoginPayload
+	var Student entity.Student
 
-// 	if err := c.ShouldBindJSON(&payload); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
-// 	// ค้นหา Student ด้วย email ที่ผู้ใช้กรอกเข้ามา
-// 	if err := entity.DB().Raw("SELECT * FROM Students WHERE email = ?", payload.Email).Scan(&Student).Error; err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// ค้นหา Student ด้วย user_student ที่ผู้ใช้กรอกเข้ามา
+	if err := entity.DB().Raw("SELECT * FROM Students WHERE user_student = ?", payload.User_student).Scan(&Student).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-// 	// ตรวจสอบรหัสผ่าน
-// 	err := bcrypt.CompareHashAndPassword([]byte(Student.Password), []byte(payload.Password))
-// 	if err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "password is incerrect"})
-// 		return
-// 	}
+	// ตรวจสอบรหัสผ่าน
+	err := bcrypt.CompareHashAndPassword([]byte(Student.Phone), []byte(payload.Phone))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "phone is incerrect"})
+		return
+	}
 
-// 	// กำหนดค่า SecretKey, Issuer และระยะเวลาหมดอายุของ Token สามารถกำหนดเองได้
-// 	// SecretKey ใช้สำหรับการ sign ข้อความเพื่อบอกว่าข้อความมาจากตัวเราแน่นอน
-// 	// Issuer เป็น unique id ที่เอาไว้ระบุตัว client
-// 	// ExpirationHours เป็นเวลาหมดอายุของ token
+	// กำหนดค่า SecretKey, Issuer และระยะเวลาหมดอายุของ Token สามารถกำหนดเองได้
+	// SecretKey ใช้สำหรับการ sign ข้อความเพื่อบอกว่าข้อความมาจากตัวเราแน่นอน
+	// Issuer เป็น unique id ที่เอาไว้ระบุตัว client
+	// ExpirationHours เป็นเวลาหมดอายุของ token
 
-// 	jwtWrapper := service.JwtWrapper{
-// 		SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
-// 		Issuer:          "AuthService",
-// 		ExpirationHours: 24,
-// 	}
+	jwtWrapper := service.JwtWrapper{
+		SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
+		Issuer:          "AuthService",
+		ExpirationHours: 24,
+	}
 
-// 	signedToken, err := jwtWrapper.GenerateToken(Student.Email)
-// 	if err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
-// 		return
-// 	}
+	signedToken, err := jwtWrapper.GenerateToken(Student.User_student)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
+		return
+	}
 
-// 	tokenResponse := LoginResponse{
-// 		Token: signedToken,
-// 		ID:    Student.ID,
-// 	}
+	tokenResponse := LoginResponse{
+		Token: signedToken,
+		ID:    Student.ID,
+	}
 
-// 	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
-// }
+	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
+}
 
-// // POST /create
-// func CreateStudent(c *gin.Context) {
-// 	var payload SignUpPayload
-// 	var Student entity.Student
+// POST /create A AA
+func CreateStudent(c *gin.Context) {
+	var payload SignUpPayload
+	var Student entity.Student
 
-// 	if err := c.ShouldBindJSON(&payload); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-// 	// เข้ารหัสลับรหัสผ่านที่ผู้ใช้กรอกก่อนบันทึกลงฐานข้อมูล
-// 	hashPassword, err := bcrypt.GenerateFromPassword([]byte(payload.Password), 14)
-// 	if err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "error hashing password"})
-// 		return
-// 	}
+	// เข้ารหัสลับรหัสผ่านที่ผู้ใช้กรอกก่อนบันทึกลงฐานข้อมูล
+	hashPhone, err := bcrypt.GenerateFromPassword([]byte(payload.Phone), 14)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "error hashing password"})
+		return
+	}
 
-// 	Student.Name = payload.Name
-// 	Student.Email = payload.Email
-// 	Student.Password = string(hashPassword)
+	Student.Name = payload.Name
+	Student.User_student = payload.User_student
+	Student.Phone = string(hashPhone)
 
-// 	if err := entity.DB().Create(&Student).Error; err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
+	if err := entity.DB().Create(&Student).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-// 	c.JSON(http.StatusCreated, gin.H{"data": Student})
-// }
+	c.JSON(http.StatusCreated, gin.H{"data": Student})
+}

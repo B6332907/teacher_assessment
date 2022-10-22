@@ -25,6 +25,7 @@ import BookIcon from '@mui/icons-material/Book';
 import Home from "./components/Home";
 import Teacher_assessmentList from "./components/Teacher_assessmentList";
 import Teacher_assessmentCreate from "./components/Teacher_assessmentcreate";
+import SignIn from "./components/SignIn";
 
 const drawerWidth = 240;
 
@@ -98,13 +99,13 @@ function App() {
     }
   }, []);
 
-  // if (!token) {
-  //   return <SignIn />;
-  // }
+  if (!token) {
+    return <SignIn />;
+  }
 
   const signout = () => {
     localStorage.clear();
-    window.location.href = "/";
+    window.location.href = "/login";
   };
 
   return (
