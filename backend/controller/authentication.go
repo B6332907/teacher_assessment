@@ -11,14 +11,14 @@ import (
 
 // LoginPayload login body
 type LoginPayload struct {
-	User_student string `json:"user_student"`
+	S_ID string `json:"s_id"`
 	Phone        string `json:"Phone"`
 }
 
 // SignUpPayload signup body
 type SignUpPayload struct {
 	Name         string `json:"name"`
-	User_student string `json:"user_student"`
+	S_ID string `json:"s_id"`
 	Phone        string `json:"phone"`
 }
 
@@ -37,8 +37,8 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	// ค้นหา Student ด้วย user_student ที่ผู้ใช้กรอกเข้ามา
-	if err := entity.DB().Raw("SELECT * FROM Students WHERE user_student = ?", payload.User_student).Scan(&Student).Error; err != nil {
+	// ค้นหา Student ด้วย s_id ที่ผู้ใช้กรอกเข้ามา
+	if err := entity.DB().Raw("SELECT * FROM Students WHERE s_id = ?", payload.S_ID).Scan(&Student).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -61,7 +61,7 @@ func Login(c *gin.Context) {
 		ExpirationHours: 24,
 	}
 
-	signedToken, err := jwtWrapper.GenerateToken(Student.User_student)
+	signedToken, err := jwtWrapper.GenerateToken(Student.S_ID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
 		return
@@ -93,7 +93,7 @@ func CreateStudent(c *gin.Context) {
 	}
 
 	Student.Name = payload.Name
-	Student.User_student = payload.User_student
+	Student.S_ID = payload.S_ID
 	Student.Phone = string(hashPhone)
 
 	if err := entity.DB().Create(&Student).Error; err != nil {

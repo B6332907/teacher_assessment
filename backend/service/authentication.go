@@ -14,16 +14,16 @@ type JwtWrapper struct {
 	ExpirationHours int64
 }
 
-// JwtClaim adds user_student as a claim to the token
+// JwtClaim adds s_id as a claim to the token
 type JwtClaim struct {
-	User_student string
+	S_ID string
 	jwt.StandardClaims
 }
 
 // Generate Token generates a jwt token
-func (j *JwtWrapper) GenerateToken(user_student string) (signedToken string, err error) {
+func (j *JwtWrapper) GenerateToken(s_id string) (signedToken string, err error) {
 	claims := &JwtClaim{
-		User_student: user_student,
+		S_ID: s_id,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(j.ExpirationHours)).Unix(),
 			Issuer:    j.Issuer,

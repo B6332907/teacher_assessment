@@ -3,6 +3,7 @@ import { TeachersInterface } from "./ITeacher";
 import { Teaching_durationsInterface } from "./ITeaching_duration";
 import { Content_difficulty_levelsInterface } from "./IContent_difficulty_level";
 import { Content_qualitysInterface } from "./IContent_quality";
+import { CommentsInterface } from "./IComment";
 
 export interface Teacher_assessmentsInterface {
     ID?: number;
@@ -17,5 +18,7 @@ export interface Teacher_assessmentsInterface {
     Content_difficulty_level_ID?: number;     // foreignkey.ID?
     Content_quality?: Content_qualitysInterface;
     Content_quality_ID?: number;     // foreignkey.ID?
+    Comment?: string;
+
     
 }

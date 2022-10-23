@@ -1,4 +1,4 @@
 export interface SigninInterface {
-    User_student?: string,
+    S_ID?: string,
     Phone?: string,
   }

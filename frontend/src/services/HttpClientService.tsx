@@ -97,6 +97,29 @@ async function GetTeacher() {
     return res;
 }
 
+async function GetComment() {
+    const requestOptions = {
+        method: "GET",
+        headers: {
+             Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+        },
+    };
+
+    let res = await fetch(`${apiUrl}/Comments`, requestOptions)
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.data) {
+                console.log(res.data);
+                return res.data;
+            } else {
+                return false;
+            }
+        });
+
+    return res;
+}
+
 async function GetTeaching_duration() {
     const requestOptions = {
         method: "GET",
@@ -214,6 +237,7 @@ async function CreateTeacher_assessment(data: Teacher_assessmentsInterface) {
   }
 
   export {
+    GetComment,
     Login,
     GetTeacher_assessments,
     GetStudent,

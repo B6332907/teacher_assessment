@@ -44,27 +44,27 @@ func SetupDatabase() {
 
 	// student data
 	db.Model(&Student{}).Create(&Student{
-		Name:         "Khunjira Pantuket",
-		User_student: "Student5001",
-		College_year: 3,
+		Name:         "นายเอกลักษณ์ มาดี",
+		S_ID:         "B6300001",
+		College_year: 8003,
 		Gpx:          3.00,
 		//Faculty_ID:    1004,
 		Date_of_birth: "20/06/2001",
 		Phone:         string(phone_1),
-		Parent:        "Banjoong Puntuket",
+		Parent:        "Banjoong",
 
 		//Teacher_ID:    5001,
 		//Officer_ID:    0101,
 	})
 	db.Model(&Student{}).Create(&Student{
-		Name:         "Natiluk Srisakkwa",
-		User_student: "Student5002",
-		College_year: 3,
+		Name:         "นางสาวลัดดา ตั้งใจ",
+		S_ID:         "B6300002",
+		College_year: 8003,
 		Gpx:          3.00,
 		//Faculty_ID:    1004,
 		Date_of_birth: "26/07/2001",
 		Phone:         string(phone_2),
-		Parent:        "Sawat Puntuket",
+		Parent:        "Sawat",
 
 		//Teacher_ID:    5001,
 		//Officer_ID:    0102,
@@ -73,7 +73,7 @@ func SetupDatabase() {
 	db.Model(&Teacher{}).Create(&Teacher{
 		//Faculty_id:                1004,
 		Level: "Mr.",
-		Name:  "Somchay Tunsamai",
+		Name:  "สมชาย ทันสมัย",
 		Email: "Somchay@gmail.com",
 		//Graduate_faculty_level_id: 2002,
 		//Officer_id:                0001,
@@ -81,7 +81,7 @@ func SetupDatabase() {
 	db.Model(&Teacher{}).Create(&Teacher{
 		//Faculty_ID:                1001,
 		Level: "Mrs.",
-		Name:  "Somying Junpon",
+		Name:  "สมหญิง จุลพล",
 		Email: "Somying@gmail.com",
 		//Graduate_faculty_level_id: 2002,
 		//Officer_id:                0001,
@@ -90,61 +90,56 @@ func SetupDatabase() {
 	//Teaching_duration data
 
 	duration_one := Teaching_duration{
-		Description: "longer than necessary",
+		Description: "ใช้เวลานานเกินไปในการสอน",
 	}
 	db.Model(&Teaching_duration{}).Create(&duration_one)
 
 	duration_two := Teaching_duration{
-		Description: "Take the time to study",
+		Description: "มีการใช้เวลาบางเนื้อหานานเกินไป",
 	}
 	db.Model(&Teaching_duration{}).Create(&duration_two)
 
 	duration_three := Teaching_duration{
-		Description: "is most suitable for learning",
+		Description: "เวลาเหมาะสมกับเนื้อหาที่เรียน",
 	}
 	db.Model(&Teaching_duration{}).Create(&duration_three)
 
 	//content_quality data
 
 	quality_one := Content_quality{
-		Description: "content should be update",
+		Description: "เนื้อหาควรที่จะมีการอัพเดต",
 	}
 	db.Model(&Content_quality{}).Create(&quality_one)
 
 	quality_two := Content_quality{
-		Description: "content is not difficult and not easy",
+		Description: "เนื้อหาอยู่ในระดับปกติ",
 	}
 	db.Model(&Content_quality{}).Create(&quality_two)
 
 	quality_three := Content_quality{
-		Description: "is suitable for the course",
+		Description: "เนื้อหามีความเหมาะสมกับรายวิชา",
 	}
 	db.Model(&Content_quality{}).Create(&quality_three)
-
-	quality_four := Content_quality{
-		Description: "it is most appropriate for the quality of the content",
-	}
-	db.Model(&Content_quality{}).Create(&quality_four)
 
 	//content difficulty level data
 
 	difficulty_one := Content_difficulty_level{
-		Description: "amend",
+		Description: "ยากเกินไป",
 	}
 	db.Model(&Content_difficulty_level{}).Create(&difficulty_one)
 
 	difficulty_two := Content_difficulty_level{
-		Description: "Fair",
+		Description: "พอใช้",
 	}
 	db.Model(&Content_difficulty_level{}).Create(&difficulty_two)
 
 	difficulty_three := Content_difficulty_level{
-		Description: "appropriate",
+		Description: "เหมาะสม",
 	}
 	db.Model(&Content_difficulty_level{}).Create(&difficulty_three)
 
 	difficulty_four := Content_difficulty_level{
-		Description: "easy to understand",
+		Description: "เข้าใจง่าย",
 	}
 	db.Model(&Content_difficulty_level{}).Create(&difficulty_four)
 

@@ -2,7 +2,7 @@ export interface StudentsInterface {
 
     ID?: number,
     Name?: string;
-    User_student?: string;
+    S_ID?: string;
     College_year?: string;
     Gpx?: string;
     Faculty_ID?: number;

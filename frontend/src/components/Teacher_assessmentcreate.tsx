@@ -11,7 +11,7 @@ import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-// import TextField from "@mui/material/TextField";
+import TextField from "@mui/material/TextField";
 // import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 // import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -21,9 +21,11 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
  import { Teaching_durationsInterface } from "../models/ITeaching_duration";
  import { Content_difficulty_levelsInterface } from "../models/IContent_difficulty_level";
  import { Content_qualitysInterface } from "../models/IContent_quality";
- import { Teacher_assessmentsInterface } from "../models/ITeacher_assessment";   
+ import { Teacher_assessmentsInterface } from "../models/ITeacher_assessment";
+ import { CommentsInterface } from "../models/IComment";     
 
 import {
+    GetComment,
     GetOnlyStudent,
     GetTeacher,
     GetTeaching_duration,
@@ -45,6 +47,8 @@ import {
     const [Content_difficulty_levels, setContent_difficulty_levels] = useState<Content_difficulty_levelsInterface[]>([]);
     const [Content_qualitys, setContent_qualitys] = useState<Content_qualitysInterface[]>([]);
     const [Teacher_assessment, setTeacher_assessments] = useState<Teacher_assessmentsInterface>({});
+    const [comment, setcomments] = useState<string>("");
+
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
 
@@ -76,11 +80,18 @@ import {
         console.log(res);
     }
   };
-    const getTeacher = async () => {
-     let res = await GetTeacher();
+    const getcomment = async () => {
+     let res = await GetComment();
       if (res) {
-       setTeachers(res);
+       setcomments(res);
        console.log(res);
+  }
+}; 
+    const getTeacher = async () => {
+      let res = await GetTeacher();
+        if (res) {
+          setTeachers(res);
+          console.log(res);
   }
 };
 
@@ -107,6 +118,7 @@ import {
   };
 
   useEffect(() => {
+    getcomment();
     getStudent();
     getTeacher();
     getTeaching_duration();
@@ -127,6 +139,8 @@ import {
       Teaching_duration_ID: convertType(Teacher_assessment.Teaching_duration_ID),
       Content_difficulty_level_ID: convertType(Teacher_assessment.Content_difficulty_level_ID),
       Content_quality_ID: convertType(Teacher_assessment.Content_quality_ID),
+      Comment: (comment),
+
     };
     console.log("data");
     console.log(data);
@@ -196,7 +210,7 @@ import {
                   กรุณารหัสนักศึกษา
                 </option>
                 <option value={student?.ID} key={student?.ID}>
-                  {student?.User_student}
+                  {student?.S_ID}
                 </option>
               </Select>
             </FormControl>
@@ -285,10 +299,15 @@ import {
                   <option value={item.ID} key={item.ID}>
                     {item.Description}
                   </option>
+                  
                 ))}
               </Select>
             </FormControl>
           </Grid>
+          <Grid item xs={8}>
+                <p>ความคิดเห็นเพิ่มเติม</p>
+                <TextField fullWidth id="Comment" type="string" variant="outlined"  onChange={(event) => setcomments(event.target.value)} />
+              </Grid>
           <Grid item xs={12}>
             <Button
               component={RouterLink}

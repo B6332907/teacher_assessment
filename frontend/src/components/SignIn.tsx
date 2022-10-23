@@ -124,12 +124,12 @@ function SignIn() {
                 margin="normal"
                 required
                 fullWidth
-                id="User_student"
+                id="S_ID"
                 label="User Name"
-                name="user_student"
-                autoComplete="user_student"
+                name="s_id"
+                autoComplete="s_id"
                 autoFocus
-                value={signin.User_student || ""}
+                value={signin.S_ID || ""}
                 onChange={handleInputChange}
               />
               <TextField

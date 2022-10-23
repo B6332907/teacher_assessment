@@ -9,7 +9,7 @@ import (
 type Student struct {
 	gorm.Model
 	Name          string `gorm:"uniqueIndex"`
-	User_student  string `gorm:"uniqueIndex"`
+	S_ID          string `gorm:"uniqueIndex"`
 	College_year  uint
 	Gpx           uint
 	Date_of_birth string
@@ -65,7 +65,8 @@ type Content_quality struct {
 
 type Teacher_assessment struct {
 	gorm.Model
-	//Timestamp  time.Time
+	Comment string
+
 	Student_ID *uint
 	Student    Student `gorm:"references:id"`
 

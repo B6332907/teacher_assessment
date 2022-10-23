@@ -19,6 +19,8 @@ function Teacher_assessmentList() {
     const getTeacher_assessments = async () => {
       let res = await GetTeacher_assessments();
       if (res) {
+        console.log("res");
+        console.log(res);
         setTeacher_assessments(res);
       } 
     };
@@ -54,6 +56,11 @@ function Teacher_assessmentList() {
         headerName: "คุณภาพของเนื้อหา",
         width: 300,
         valueFormatter: (params) => params.value.Description,
+      },
+      {
+        field: "Comment",
+        headerName: "ความคิดเห็น",
+        width: 300,
       },
     ];
   
